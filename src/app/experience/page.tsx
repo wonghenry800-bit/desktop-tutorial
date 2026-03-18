@@ -124,7 +124,6 @@ export default function Experience() {
   const data = experienceData[lang];
   const title = lang === 'en' ? 'Experience' : '工作经历';
   const subtitle = lang === 'en' ? "Where I've worked" : '我的工作经历';
-  const viewDetails = lang === 'en' ? 'View Details' : '查看详情';
   const close = lang === 'en' ? 'Close' : '关闭';
   const isPresent = (period: string) =>
     period.includes('Present') || period.includes('至今');
@@ -133,14 +132,14 @@ export default function Experience() {
     <div className="min-h-screen bg-black">
       <Navbar lang={lang} setLang={setLang} currentPage="experience" />
 
-      <main className="pt-24 pb-24 px-6">
+      <main className="pt-32 pb-24 px-6">
         {/* Hero */}
-        <div className="max-w-[980px] mx-auto text-center mb-16">
+        <div className="max-w-[740px] mx-auto text-center mb-16">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-[13px] font-medium tracking-widest uppercase text-[#2997ff] mb-4"
+            className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#2997ff] mb-4"
           >
             Career
           </motion.p>
@@ -148,8 +147,8 @@ export default function Experience() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.05 }}
-            className="text-[56px] font-semibold tracking-tight leading-none text-white mb-4"
-            style={{ letterSpacing: '-0.025em' }}
+            className="text-[48px] md:text-[56px] font-semibold text-white mb-4"
+            style={{ letterSpacing: '-0.025em', lineHeight: 1.07 }}
           >
             {title}
           </motion.h1>
@@ -157,19 +156,18 @@ export default function Experience() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-[19px] font-light text-white/50"
+            className="text-[19px] font-light text-white/40"
           >
             {subtitle}
           </motion.p>
         </div>
 
-        {/* Experience List */}
-        <div className="max-w-[980px] mx-auto">
-          <p className="text-[12px] font-medium tracking-[0.06em] uppercase text-white/30 mb-6 pb-4 border-b border-white/10">
+        {/* List */}
+        <div className="max-w-[740px] mx-auto">
+          <p className="text-[11px] font-semibold tracking-[0.08em] uppercase text-white/25 mb-5 pb-3 border-b border-white/10">
             Professional
           </p>
 
-          {/* Unified card container */}
           <div
             className="rounded-[18px] overflow-hidden"
             style={{ border: '0.5px solid rgba(255,255,255,0.1)' }}
@@ -177,22 +175,22 @@ export default function Experience() {
             {data.map((item, i) => (
               <motion.div
                 key={item.company}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.07 }}
-                className="group flex items-start gap-5 px-8 py-7 cursor-pointer transition-colors duration-200 hover:bg-white/[0.04]"
+                transition={{ delay: i * 0.06 }}
+                className="flex items-center gap-4 px-6 py-5 cursor-pointer transition-colors duration-200 hover:bg-white/[0.05]"
                 style={{
                   borderBottom:
                     i < data.length - 1
-                      ? '0.5px solid rgba(255,255,255,0.08)'
+                      ? '0.5px solid rgba(255,255,255,0.07)'
                       : 'none',
-                  backgroundColor: 'rgba(255,255,255,0.02)',
+                  backgroundColor: 'rgba(255,255,255,0.015)',
                 }}
                 onClick={() => setSelected(i)}
               >
                 {/* Logo */}
                 <div
-                  className="flex-shrink-0 w-14 h-14 rounded-[14px] overflow-hidden flex items-center justify-center bg-white/5"
+                  className="flex-shrink-0 w-12 h-12 rounded-[12px] overflow-hidden bg-white/5"
                   style={{ border: '0.5px solid rgba(255,255,255,0.1)' }}
                 >
                   <img
@@ -207,17 +205,18 @@ export default function Experience() {
 
                 {/* Body */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-[17px] font-medium text-white tracking-tight truncate">
+                  <p className="text-[15px] font-medium text-white truncate" style={{ letterSpacing: '-0.01em' }}>
                     {item.company}
                   </p>
-                  <p className="text-[14px] text-white/50 mt-0.5 truncate">
+                  <p className="text-[13px] text-white/45 mt-0.5 truncate">
                     {item.role}
                   </p>
-                  <div className="flex flex-wrap gap-1.5 mt-3">
+                  <div className="flex flex-wrap gap-1.5 mt-2">
                     {item.description.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[11px] font-medium text-white/40 bg-white/[0.06] px-2.5 py-1 rounded-full"
+                        className="text-[11px] font-medium text-white/35 px-2 py-0.5 rounded-full"
+                        style={{ backgroundColor: 'rgba(255,255,255,0.07)' }}
                       >
                         {tag}
                       </span>
@@ -225,17 +224,14 @@ export default function Experience() {
                   </div>
                 </div>
 
-                {/* Meta */}
-                <div className="flex-shrink-0 text-right hidden sm:block">
-                  <p className="text-[12px] text-white/30 whitespace-nowrap">
+                {/* Date */}
+                <div className="flex-shrink-0 hidden sm:flex items-center gap-2">
+                  <p className="text-[12px] text-white/25 whitespace-nowrap">
                     {item.period}
-                    {isPresent(item.period) && (
-                      <span
-                        className="inline-block w-1.5 h-1.5 rounded-full bg-green-400 ml-2 align-middle"
-                        style={{ marginBottom: '1px' }}
-                      />
-                    )}
                   </p>
+                  {isPresent(item.period) && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-shrink-0" />
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -252,21 +248,20 @@ export default function Experience() {
             exit={{ opacity: 0 }}
             onClick={() => setSelected(null)}
             className="fixed inset-0 z-50 flex items-center justify-center p-6 overflow-y-auto"
-            style={{ backgroundColor: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(20px)' }}
+            style={{ backgroundColor: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}
           >
             <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              initial={{ scale: 0.96, opacity: 0, y: 16 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              exit={{ scale: 0.96, opacity: 0, y: 16 }}
+              transition={{ type: 'spring', damping: 28, stiffness: 320 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-lg my-8 rounded-[20px] overflow-hidden"
+              className="w-full max-w-lg my-8 rounded-[22px] overflow-hidden"
               style={{
                 backgroundColor: '#1c1c1e',
                 border: '0.5px solid rgba(255,255,255,0.12)',
               }}
             >
-              {/* Cover image */}
               <div className="aspect-video overflow-hidden">
                 <img
                   src={data[selected].image}
@@ -276,23 +271,22 @@ export default function Experience() {
               </div>
 
               <div className="p-7">
-                <h2 className="text-[20px] font-semibold text-white tracking-tight">
+                <h2 className="text-[20px] font-semibold text-white" style={{ letterSpacing: '-0.02em' }}>
                   {data[selected].company}
                 </h2>
                 <p className="text-[14px] text-[#2997ff] mt-1">
                   {data[selected].role}
                 </p>
-                <p className="text-[12px] text-white/30 mt-1 flex items-center gap-2">
-                  {data[selected].period}
+                <div className="flex items-center gap-2 mt-1">
+                  <p className="text-[12px] text-white/30">
+                    {data[selected].period}
+                  </p>
                   {isPresent(data[selected].period) && (
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-400" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
                   )}
-                </p>
+                </div>
 
-                <p
-                  className="text-[14px] text-white/60 leading-relaxed mt-5"
-                  style={{ lineHeight: '1.75' }}
-                >
+                <p className="text-[14px] text-white/55 mt-5" style={{ lineHeight: '1.8' }}>
                   {data[selected].detail}
                 </p>
 

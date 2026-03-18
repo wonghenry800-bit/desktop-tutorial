@@ -5,153 +5,173 @@ import { useLanguage } from '../../components/LanguageContext';
 import Navbar from '../../components/Navbar';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const aboutData = {
+const eduData = {
   en: [
-    { emoji: '🎯', title: "Hi, I'm Yijian Huang", content: "You can also call me Henry. An explorer freely navigating between Economics, Philosophy, AI, and Policy." },
-    { emoji: '📖', title: 'My life is a book with several chapters open', content: "Policy research, business analysis, entrepreneurship, AI practice — I'm reading all simultaneously." },
-    { emoji: '🏛️', title: 'Policy is about understanding how rules shape outcomes', content: "At the State Council DRC, HK-Macao-Taiwan Association, and UNDP, I've researched how policies cross boundaries to affect real industries and lives." },
-    { emoji: '💼', title: 'Business is about validating ideas in the real world', content: "At NetEase and Rongtai VC, I learned to analyze markets and evaluate companies. Now building Tevo Group in intelligent retail." },
-    { emoji: '🤖', title: 'AI is my tool for thinking and building', content: "I use AI to assist research and enjoy building with Cursor and ChatGPT. AI is essential for understanding this era." },
-    { emoji: '☕', title: "Let's connect", content: "If any of my journey resonates with you, I'm ready for a coffee chat. Thanks for visiting!" },
+    { abbr: 'ES', school: 'ESCP Business School', prog: 'Master in Global Management', period: '2027–2029', loc: 'Paris / Berlin / London', detail: 'Founded in 1819, the world\'s oldest business school. The MGM program spans multiple European campuses, preparing students for senior leadership in international organizations across finance, strategy, and global operations.', img: '/gallery/ESCP.jpg' },
+    { abbr: 'CU', school: 'CUHK-Shenzhen', prog: 'BSc Economics (Applied Economics)', period: '2022–2026', loc: 'Shenzhen, China', detail: 'Combining CUHK\'s liberal arts tradition with Shenzhen\'s innovation spirit. Coursework in advanced econometrics, ML in finance, policy evaluation, behavioral economics, and Chinese economy. Minor in Philosophy.', img: '/gallery/香港中文大学（深圳）.jpg' },
+    { abbr: 'UC', school: 'University of Chicago — Harris', prog: 'Data & Policy Summer Scholar', period: 'Summer 2024', loc: 'Chicago, USA', detail: 'Highly competitive summer program at one of the world\'s top policy schools. Capstone project on socioeconomic factors affecting US voting behavior, supervised by Dr. Austin Wright. Methods: R, ggplot2, econometric analysis.', img: '/gallery/Chicago.png' },
+    { abbr: 'HU', school: 'University of Hong Kong', prog: 'CCGL9042 — Human Political & Economic Development', period: 'Summer 2023', loc: 'Hong Kong', detail: 'Intensive course examining world history through political economy. Produced the "2023 Sustainable Development Report of the Democratic Republic of Congo" as final presentation under Dr. Larry Baum.', img: '/gallery/University of Hong Kong.png' },
   ],
   cn: [
-    { emoji: '🎯', title: '你好，我是黄一健', content: '也可以叫我 Henry。一个在经济学、哲学、AI与政策之间自由穿梭的探索者。' },
-    { emoji: '📖', title: '我的生活像一本同时打开好几章的书', content: '政策研究、商业分析、创业、AI实践，我同时在读。' },
-    { emoji: '🏛️', title: '政策是理解规则如何塑造结果', content: '在国务院港澳台协会和UNDP，我研究政策如何跨越边界影响真实产业和生活。' },
-    { emoji: '💼', title: '商业是在现实世界中验证想法', content: '在网易和融泰私募，我学习分析市场和评估公司。现在参与智能零售创业项目Tevo Group。' },
-    { emoji: '🤖', title: 'AI是我的思考和构建工具', content: '我用AI辅助研究，享受用Cursor和ChatGPT构建。AI是理解这个时代的必备视角。' },
-    { emoji: '☕', title: '期待与您交流', content: '如果我的经历与您产生共鸣，我随时准备一杯咖啡的时间。感谢访问！' },
+    { abbr: 'ES', school: 'ESCP欧洲高等商学院', prog: '全球管理硕士', period: '2027–2029', loc: '巴黎 / 柏林 / 伦敦', detail: '创立于1819年，世界最古老的商学院。MGM项目横跨多个欧洲校区，培养学生在金融、战略与全球运营领域的高级领导力。', img: '/gallery/ESCP.jpg' },
+    { abbr: 'CU', school: '香港中文大学（深圳）', prog: '经济学学士（应用经济学）', period: '2022–2026', loc: '深圳', detail: '融合港中大博雅传统与深圳创新精神。课程涵盖高级计量经济学、金融机器学习、政策评估、行为经济学及中国经济。辅修哲学。', img: '/gallery/香港中文大学（深圳）.jpg' },
+    { abbr: 'UC', school: '芝加哥大学哈里斯公共政策学院', prog: '数据与政策学者暑期项目', period: '2024年暑期', loc: '芝加哥，美国', detail: '顶尖政策学院的高选拔暑期项目。在Austin Wright教授指导下完成关于社会经济因素影响美国投票行为的顶点项目，运用R和计量分析方法。', img: '/gallery/Chicago.png' },
+    { abbr: 'HU', school: '香港大学', prog: 'CCGL9042 政治经济学视角下的人类发展', period: '2023年暑期', loc: '香港', detail: '从政治经济学视角探索世界历史的密集课程。在Larry Baum教授指导下完成《2023刚果民主共和国可持续发展报告》。', img: '/gallery/University of Hong Kong.png' },
   ],
 };
 
-const educationData = {
+const langs = [
+  { name: 'Cantonese / 粤语', level: 'Native', pct: 100, color: '#1d1d1f' },
+  { name: 'Mandarin / 普通话', level: 'Native', pct: 100, color: '#1d1d1f' },
+  { name: 'English', level: 'Proficient', pct: 92, color: '#2997ff' },
+  { name: '日本語', level: 'Proficient', pct: 80, color: '#2997ff' },
+  { name: 'Deutsch', level: 'Intermediate', pct: 55, color: '#86868b' },
+  { name: 'Français', level: 'Basic', pct: 30, color: '#aeaeb2' },
+];
+
+const skills = ['Python', 'Stata', 'R Studio', 'LaTeX', 'MS Office', 'Machine Learning', 'Econometrics', 'Policy Evaluation'];
+
+const aboutCards = {
   en: [
-    { school: 'ESCP Europe Business School', program: 'Master in Global Management', period: '2027 – 2029', description: "Top-ranked European business school, multidisciplinary management program", detail: "ESCP Business School was founded in 1819 and is the world's oldest business school. The Master in Global Management prepares students for leadership roles in international organizations across multiple European campuses.", image: '/gallery/ESCP.jpg' },
-    { school: 'CUHK, Shenzhen', program: 'BSc in Economics (Applied Economics)', period: '2022 – 2026', description: 'One of the top universities in the GBA, economics with data analysis focus', detail: "CUHK-Shenzhen combines the liberal arts tradition of CUHK with the innovative spirit of Shenzhen. The Economics program emphasizes quantitative methods, data analysis, and policy evaluation.", image: '/gallery/香港中文大学（深圳）.jpg' },
-    { school: 'The University of Hong Kong', program: 'CCGL9042 – Human Political & Economic Development', period: 'Summer 2023', description: 'Exchange program exploring world history from political economy perspective', detail: "HKU's CCGL9042 course explores world history through the lens of political economy, covering the evolution of civilizations, global trade systems, and development patterns.", image: '/gallery/University of Hong Kong.png' },
-    { school: 'UChicago Harris School of Public Policy', program: 'Data and Policy Summer Scholar Program', period: 'Summer 2024', description: 'Elite summer program focusing on data-driven policy analysis', detail: "A highly competitive program for undergraduates. Students learn advanced econometric methods, R programming, and policy evaluation techniques. Capstone project supervised by Dr. Austin Wright.", image: '/gallery/Chicago.png' },
+    { icon: '🎯', t: "Hi — I'm Yijian (Henry)", b: 'Explorer navigating Economics, Philosophy, AI and Policy simultaneously. Senior at CUHK-Shenzhen, heading to ESCP in 2027.' },
+    { icon: '🏛️', t: 'Policy at the highest levels', b: 'State Council DRC, UNDP, GBA Institute, UN Geneva — researching how rules shape real industries and lives.' },
+    { icon: '📊', t: 'Data-driven thinking', b: 'HKU AI Centre, UChicago Harris. Python, Stata, R. Turning raw data into policy insight.' },
+    { icon: '💼', t: 'Business & markets', b: 'NetEase gaming licensing, Rongtai VC due diligence, Beijing YingKe Law Firm. Theory meets practice.' },
+    { icon: '🌏', t: '6 languages, 3+ countries', b: 'Cantonese, Mandarin, English, Japanese, German, French. Geneva, Chicago, Hong Kong, Shenzhen.' },
+    { icon: '☕', t: "Let's talk", b: "If any of this resonates, I'm always up for a coffee chat or research collaboration." },
   ],
   cn: [
-    { school: 'ESCP欧洲高等商学院', program: '全球管理硕士', period: '2027 – 2029', description: '欧洲顶尖商学院，多学科管理课程', detail: 'ESCP商学院创立于1819年，是世界上最古老的商学院。全球管理硕士项目培养学生在国际组织中担任领导角色。', image: '/gallery/ESCP.jpg' },
-    { school: '香港中文大学（深圳）', program: '经济学学士（应用经济学）', period: '2022 – 2026', description: '粤港澳大湾区顶尖高校，经济学与数据分析', detail: '港中深融合了港中大的博雅教育传统与深圳的创新精神。经济学项目强调定量方法、数据分析和政策评估。', image: '/gallery/香港中文大学（深圳）.jpg' },
-    { school: '香港大学', program: 'CCGL9042 政治经济学视角下的人类发展', period: '2023年暑期', description: '交换生项目，从政治经济学角度探索世界历史', detail: '港大CCGL9042课程从政治经济学视角探索世界历史，涵盖文明演变、全球贸易体系和发展模式。', image: '/gallery/University of Hong Kong.png' },
-    { school: '芝加哥大学哈里斯公共政策学院', program: '数据与政策学者暑期项目', period: '2024年暑期', description: '精英暑期项目，专注数据驱动政策分析', detail: '竞争激烈的本科项目，学习高级计量经济学方法、R数据分析和政策评估技术。在Austin Wright教授指导下完成capstone项目。', image: '/gallery/Chicago.png' },
+    { icon: '🎯', t: '你好，我是黄一健', b: '在经济学、哲学、AI与政策之间自由穿梭的探索者。港中深大四，2027年前往ESCP深造。' },
+    { icon: '🏛️', t: '政策研究在最高层', b: '国务院发展研究中心、UNDP、大湾区研究院、联合国日内瓦——研究规则如何塑造真实产业与生活。' },
+    { icon: '📊', t: '数据驱动的思维', b: '港大AI中心、芝加哥大学。Python、Stata、R。将原始数据转化为政策洞见。' },
+    { icon: '💼', t: '商业与市场', b: '网易互娱游戏授权、融泰私募尽调、北京盈科律所。理论与实践的结合。' },
+    { icon: '🌏', t: '6种语言，3+国家', b: '粤语、普通话、英语、日语、德语、法语。日内瓦、芝加哥、香港、深圳。' },
+    { icon: '☕', t: '期待交流', b: '如果有共鸣，随时欢迎咖啡聊天或研究合作。' },
   ],
 };
 
 export default function About() {
   const { lang, setLang } = useLanguage();
-  const [selectedEdu, setSelectedEdu] = useState<number | null>(null);
-  const data = aboutData[lang];
-  const eduData = educationData[lang];
+  const [selEdu, setSelEdu] = useState<number | null>(null);
+  const edu = eduData[lang];
+  const cards = aboutCards[lang];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div style={{ background: '#fff', minHeight: '100vh' }}>
       <Navbar lang={lang} setLang={setLang} currentPage="about" />
 
-      <main className="pt-32 pb-24 px-6">
-        <div className="max-w-[740px] mx-auto">
+      <main style={{ paddingTop: 100, paddingBottom: 100 }}>
+        {/* Hero */}
+        <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 24px', textAlign: 'center', marginBottom: 80 }}>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#2997ff', marginBottom: 16 }}>Profile</motion.p>
+          <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
+            style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 700, color: '#1d1d1f', letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: 18 }}>
+            {lang === 'en' ? 'About Me' : '关于我'}
+          </motion.h1>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }}
+            style={{ fontSize: 18, fontWeight: 300, color: '#6e6e73' }}>
+            {lang === 'en' ? 'Researcher · Analyst · Builder' : '研究者 · 分析师 · 创造者'}
+          </motion.p>
+        </div>
 
-          {/* Hero */}
-          <div className="text-center mb-16">
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#2997ff] mb-4">Profile</motion.p>
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="text-[48px] font-semibold text-[#1d1d1f] mb-4" style={{ letterSpacing: '-0.025em', lineHeight: 1.07 }}>
-              {lang === 'en' ? 'About Me' : '关于我'}
-            </motion.h1>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }} className="text-[19px] font-light text-[#6e6e73]">
-              {lang === 'en' ? 'Explorer. Researcher. Builder.' : '探索者 · 研究者 · 创造者'}
-            </motion.p>
-          </div>
-
-          {/* About cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-20">
-            {data.map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.06 + 0.1 }}
-                className="rounded-[18px] p-6 transition-colors duration-200"
-                style={{ backgroundColor: '#f5f5f7', border: '0.5px solid rgba(0,0,0,0.06)' }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#ebebf0')}
-                onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#f5f5f7')}
-              >
-                <span className="text-[24px] mb-3 block">{item.emoji}</span>
-                <h3 className="text-[15px] font-semibold text-[#1d1d1f] mb-2" style={{ letterSpacing: '-0.01em' }}>{item.title}</h3>
-                <p className="text-[13px] text-[#6e6e73] leading-relaxed">{item.content}</p>
+        {/* About cards */}
+        <div style={{ maxWidth: 740, margin: '0 auto', padding: '0 24px', marginBottom: 80 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+            {cards.map((c, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
+                style={{ background: i === 0 ? '#1d1d1f' : '#f5f5f7', borderRadius: 18, padding: '22px 24px', gridColumn: i === 0 ? 'span 2' : 'span 1', border: '0.5px solid rgba(0,0,0,0.06)' }}>
+                <div style={{ fontSize: 24, marginBottom: 10 }}>{c.icon}</div>
+                <div style={{ fontSize: 14, fontWeight: 600, color: i === 0 ? '#f5f5f7' : '#1d1d1f', marginBottom: 6, letterSpacing: '-0.01em' }}>{c.t}</div>
+                <div style={{ fontSize: 13, color: i === 0 ? 'rgba(255,255,255,0.55)' : '#6e6e73', lineHeight: 1.65 }}>{c.b}</div>
               </motion.div>
             ))}
           </div>
+        </div>
 
-          {/* Education */}
-          <div>
-            <p className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#86868b] mb-5 pb-3" style={{ borderBottom: '0.5px solid rgba(0,0,0,0.08)' }}>
-              {lang === 'en' ? 'Education' : '教育背景'}
-            </p>
-            <div
-              className="rounded-[18px] overflow-hidden"
-              style={{ border: '0.5px solid rgba(0,0,0,0.08)' }}
-            >
-              {eduData.map((edu, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.06 + 0.3 }}
-                  className="flex items-center gap-4 px-6 py-5 cursor-pointer transition-colors duration-150"
-                  style={{
-                    borderBottom: i < eduData.length - 1 ? '0.5px solid rgba(0,0,0,0.06)' : 'none',
-                    backgroundColor: 'rgba(0,0,0,0.01)',
-                  }}
-                  onClick={() => setSelectedEdu(i)}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f5f5f7')}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.01)')}
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-[12px] overflow-hidden bg-[#f5f5f7]" style={{ border: '0.5px solid rgba(0,0,0,0.08)' }}>
-                    <img src={edu.image} alt={edu.school} className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[15px] font-medium text-[#1d1d1f] truncate" style={{ letterSpacing: '-0.01em' }}>{edu.school}</p>
-                    <p className="text-[13px] text-[#2997ff] mt-0.5 truncate">{edu.program}</p>
-                  </div>
-                  <p className="text-[12px] text-[#86868b] whitespace-nowrap hidden sm:block">{edu.period}</p>
-                </motion.div>
-              ))}
-            </div>
+        {/* Education */}
+        <div style={{ maxWidth: 740, margin: '0 auto', padding: '0 24px', marginBottom: 80 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#86868b', paddingBottom: 12, borderBottom: '0.5px solid rgba(0,0,0,0.08)', marginBottom: 16 }}>
+            {lang === 'en' ? 'Education' : '教育背景'}
+          </p>
+          <div style={{ borderRadius: 18, overflow: 'hidden', border: '0.5px solid rgba(0,0,0,0.08)' }}>
+            {edu.map((e, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 + 0.2 }}
+                onClick={() => setSelEdu(i)}
+                style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 22px', cursor: 'pointer', borderBottom: i < edu.length - 1 ? '0.5px solid rgba(0,0,0,0.06)' : 'none', background: 'rgba(0,0,0,0.01)', transition: 'background 0.15s' }}
+                onMouseEnter={e2 => (e2.currentTarget.style.background = '#f5f5f7')}
+                onMouseLeave={e2 => (e2.currentTarget.style.background = 'rgba(0,0,0,0.01)')}>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: '#f5f5f7', border: '0.5px solid rgba(0,0,0,0.08)', flexShrink: 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <img src={e.img} alt={e.abbr} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={ev => { (ev.target as HTMLImageElement).style.display = 'none' }} />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: '#1d1d1f', letterSpacing: '-0.01em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{e.school}</div>
+                  <div style={{ fontSize: 12, color: '#2997ff', marginTop: 2 }}>{e.prog}</div>
+                  <div style={{ fontSize: 11, color: '#aeaeb2', marginTop: 2 }}>{e.loc}</div>
+                </div>
+                <div style={{ fontSize: 11, color: '#aeaeb2', flexShrink: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  {e.period}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aeaeb2" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
+                </div>
+              </motion.div>
+            ))}
           </div>
+        </div>
 
-          {/* Signature */}
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="text-center mt-16">
-            <p className="text-[14px] text-[#86868b]">{lang === 'cn' ? '黄一健' : '— Yijian Huang'}</p>
-            <p className="text-[12px] text-[#b0b0b5] mt-1">{lang === 'cn' ? '于深圳，2026年春' : 'Shenzhen, Spring 2026'}</p>
-          </motion.div>
+        {/* Languages */}
+        <div style={{ maxWidth: 740, margin: '0 auto', padding: '0 24px', marginBottom: 80 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#86868b', paddingBottom: 12, borderBottom: '0.5px solid rgba(0,0,0,0.08)', marginBottom: 16 }}>
+            {lang === 'en' ? 'Languages' : '语言能力'}
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+            {langs.map((l, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 + 0.3 }}
+                style={{ background: '#f5f5f7', borderRadius: 14, padding: '14px 16px', border: '0.5px solid rgba(0,0,0,0.06)' }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>{l.name}</div>
+                <div style={{ fontSize: 11, color: '#86868b', marginTop: 2 }}>{l.level}</div>
+                <div style={{ height: 3, borderRadius: 2, background: '#e5e5ea', marginTop: 10, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${l.pct}%`, background: l.color, borderRadius: 2 }} />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Skills */}
+        <div style={{ maxWidth: 740, margin: '0 auto', padding: '0 24px' }}>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#86868b', paddingBottom: 12, borderBottom: '0.5px solid rgba(0,0,0,0.08)', marginBottom: 16 }}>
+            {lang === 'en' ? 'Technical Skills' : '技能工具'}
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {skills.map((s, i) => (
+              <motion.span key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.04 + 0.3 }}
+                style={{ fontSize: 13, fontWeight: 500, color: '#1d1d1f', background: '#f5f5f7', border: '0.5px solid rgba(0,0,0,0.08)', padding: '7px 16px', borderRadius: 100 }}>
+                {s}
+              </motion.span>
+            ))}
+          </div>
         </div>
       </main>
 
       {/* Education Modal */}
       <AnimatePresence>
-        {selectedEdu !== null && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedEdu(null)}
-            className="fixed inset-0 z-50 flex items-center justify-center p-6"
-            style={{ backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
-            <motion.div initial={{ scale: 0.96, opacity: 0, y: 16 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.96, opacity: 0 }}
-              transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+        {selEdu !== null && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={() => setSelEdu(null)}
+            style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(20px)' }}>
+            <motion.div initial={{ scale: 0.95, y: 20, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: 'spring', damping: 28, stiffness: 300 }}
               onClick={e => e.stopPropagation()}
-              className="w-full max-w-lg rounded-[22px] overflow-hidden bg-white"
-              style={{ border: '0.5px solid rgba(0,0,0,0.1)', boxShadow: '0 24px 64px rgba(0,0,0,0.2)' }}>
-              <div className="aspect-video overflow-hidden bg-[#f5f5f7]">
-                <img src={eduData[selectedEdu].image} alt={eduData[selectedEdu].school} className="w-full h-full object-cover" />
+              style={{ background: '#fff', borderRadius: 22, maxWidth: 520, width: '100%', overflow: 'hidden', border: '0.5px solid rgba(0,0,0,0.1)', boxShadow: '0 32px 80px rgba(0,0,0,0.25)' }}>
+              <div style={{ aspectRatio: '16/9', overflow: 'hidden', background: '#f5f5f7' }}>
+                <img src={edu[selEdu].img} alt={edu[selEdu].school} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
-              <div className="p-7">
-                <h2 className="text-[20px] font-semibold text-[#1d1d1f]" style={{ letterSpacing: '-0.02em' }}>{eduData[selectedEdu].school}</h2>
-                <p className="text-[14px] text-[#2997ff] mt-1">{eduData[selectedEdu].program}</p>
-                <p className="text-[12px] text-[#86868b] mt-1">{eduData[selectedEdu].period}</p>
-                <p className="text-[14px] text-[#6e6e73] mt-5" style={{ lineHeight: '1.8' }}>{eduData[selectedEdu].detail}</p>
-                <button onClick={() => setSelectedEdu(null)}
-                  className="mt-7 w-full py-3 rounded-full text-[13px] font-medium text-white"
-                  style={{ backgroundColor: '#1d1d1f' }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#3a3a3c')}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1d1d1f')}>
+              <div style={{ padding: 28 }}>
+                <div style={{ fontSize: 20, fontWeight: 700, color: '#1d1d1f', letterSpacing: '-0.02em' }}>{edu[selEdu].school}</div>
+                <div style={{ fontSize: 13, color: '#2997ff', marginTop: 4 }}>{edu[selEdu].prog}</div>
+                <div style={{ fontSize: 12, color: '#aeaeb2', marginTop: 2 }}>{edu[selEdu].loc} · {edu[selEdu].period}</div>
+                <div style={{ fontSize: 14, color: '#6e6e73', marginTop: 18, lineHeight: 1.75 }}>{edu[selEdu].detail}</div>
+                <button onClick={() => setSelEdu(null)}
+                  style={{ marginTop: 24, width: '100%', padding: '12px 0', borderRadius: 100, background: '#1d1d1f', color: '#fff', border: 'none', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
                   {lang === 'en' ? 'Close' : '关闭'}
                 </button>
               </div>

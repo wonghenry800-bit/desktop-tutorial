@@ -1,115 +1,112 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type Language = 'en' | 'cn';
 
-const navLabels = {
+const labels = {
   en: { about: 'About', experience: 'Experience', research: 'Research', campus: 'Campus', photos: 'Photos', contact: 'Contact' },
   cn: { about: '关于', experience: '经历', research: '科研', campus: '校园', photos: '相册', contact: '联系' },
 };
 
-const dropdownContent = {
+const drops = {
   en: {
-    about: [{ title: 'Introduction', href: '/about' }, { title: 'Education', href: '/about#education' }, { title: 'Skills', href: '/about#skills' }],
-    experience: [{ title: 'NetEase', href: '/experience?item=0' }, { title: 'UNDP', href: '/experience?item=1' }, { title: 'Rongtai VC', href: '/experience?item=2' }, { title: 'HKU AI', href: '/experience?item=3' }, { title: 'GBA Institute', href: '/experience?item=4' }, { title: 'State Council', href: '/experience?item=5' }],
-    research: [{ title: 'Healthcare GBA', href: '/research?item=0' }, { title: 'Cross-border Education', href: '/research?item=1' }, { title: 'Social Survey', href: '/research?item=2' }, { title: 'China-US Trade', href: '/research?item=3' }],
-    campus: [{ title: 'Cantonese Club', href: '/campus?item=0' }, { title: 'Economics Club', href: '/campus?item=1' }, { title: 'Southeast Asia', href: '/campus?item=2' }],
-    photos: [{ title: 'All Photos', href: '/photos' }],
-    contact: [{ title: 'Email', href: '/contact' }, { title: 'Phone', href: '/contact' }],
+    about: [{ t: 'Introduction', h: '/about' }, { t: 'Education', h: '/about#education' }],
+    experience: [{ t: 'NetEase', h: '/experience?i=0' }, { t: 'UNDP', h: '/experience?i=1' }, { t: 'State Council', h: '/experience?i=2' }, { t: 'HKU AI', h: '/experience?i=3' }],
+    research: [{ t: 'Healthcare GBA', h: '/research?i=0' }, { t: 'Cross-border Edu', h: '/research?i=1' }, { t: 'WVS Survey', h: '/research?i=2' }, { t: 'China-US Trade', h: '/research?i=3' }],
+    campus: [{ t: 'Cantonese Club', h: '/campus?i=0' }, { t: 'Economics Club', h: '/campus?i=1' }, { t: 'Southeast Asia', h: '/campus?i=2' }],
+    photos: [{ t: 'All Photos', h: '/photos' }],
+    contact: [{ t: 'Say Hello', h: '/contact' }],
   },
   cn: {
-    about: [{ title: '个人介绍', href: '/about' }, { title: '教育背景', href: '/about#education' }, { title: '技能', href: '/about#skills' }],
-    experience: [{ title: '网易互娱', href: '/experience?item=0' }, { title: 'UNDP', href: '/experience?item=1' }, { title: '融泰私募', href: '/experience?item=2' }, { title: '港大AI中心', href: '/experience?item=3' }, { title: '大湾区研究院', href: '/experience?item=4' }, { title: '国务院', href: '/experience?item=5' }],
-    research: [{ title: '医疗治理', href: '/research?item=0' }, { title: '跨境教育', href: '/research?item=1' }, { title: '社会调查', href: '/research?item=2' }, { title: '中美贸易', href: '/research?item=3' }],
-    campus: [{ title: '粤语社', href: '/campus?item=0' }, { title: '经济学会', href: '/campus?item=1' }, { title: '下南洋', href: '/campus?item=2' }],
-    photos: [{ title: '全部照片', href: '/photos' }],
-    contact: [{ title: '邮箱', href: '/contact' }, { title: '电话', href: '/contact' }],
+    about: [{ t: '个人介绍', h: '/about' }, { t: '教育背景', h: '/about#education' }],
+    experience: [{ t: '网易互娱', h: '/experience?i=0' }, { t: 'UNDP', h: '/experience?i=1' }, { t: '国务院', h: '/experience?i=2' }, { t: '港大AI中心', h: '/experience?i=3' }],
+    research: [{ t: '医疗治理', h: '/research?i=0' }, { t: '跨境教育', h: '/research?i=1' }, { t: 'WVS调查', h: '/research?i=2' }, { t: '中美贸易', h: '/research?i=3' }],
+    campus: [{ t: '粤语社', h: '/campus?i=0' }, { t: '经济学会', h: '/campus?i=1' }, { t: '下南洋', h: '/campus?i=2' }],
+    photos: [{ t: '全部照片', h: '/photos' }],
+    contact: [{ t: '联系我', h: '/contact' }],
   },
 };
 
-const navItems = [
-  { key: 'about', href: '/about' },
-  { key: 'experience', href: '/experience' },
-  { key: 'research', href: '/research' },
-  { key: 'campus', href: '/campus' },
-  { key: 'photos', href: '/photos' },
-  { key: 'contact', href: '/contact' },
-];
+const navItems = ['about', 'experience', 'research', 'campus', 'photos', 'contact'] as const;
 
-export default function Navbar({ lang, setLang, currentPage }: { lang: Language; setLang: (l: Language) => void; currentPage: string }) {
-  const t = navLabels[lang];
-  const items = dropdownContent[lang];
+export default function Navbar({
+  lang, setLang, currentPage, dark = false,
+}: {
+  lang: Language; setLang: (l: Language) => void; currentPage: string; dark?: boolean;
+}) {
   const [hovered, setHovered] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const t = labels[lang];
+  const d = drops[lang];
+
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', fn);
+    return () => window.removeEventListener('scroll', fn);
+  }, []);
+
+  const bg = dark
+    ? scrolled ? 'rgba(0,0,0,0.85)' : 'rgba(0,0,0,0)'
+    : scrolled ? 'rgba(255,255,255,0.88)' : 'rgba(255,255,255,0)';
+  const border = dark
+    ? scrolled ? 'rgba(255,255,255,0.1)' : 'transparent'
+    : scrolled ? 'rgba(0,0,0,0.08)' : 'transparent';
+  const textColor = dark ? '#f5f5f7' : '#1d1d1f';
+  const mutedColor = dark ? 'rgba(255,255,255,0.5)' : '#6e6e73';
+  const dropBg = dark ? 'rgba(28,28,30,0.96)' : 'rgba(255,255,255,0.96)';
+  const dropBorder = dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
+  const dropText = dark ? '#f5f5f7' : '#1d1d1f';
+  const dropDivider = dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
 
   return (
-    <motion.nav
-      initial={{ y: -60 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-      className="fixed top-0 left-0 right-0 z-50"
-      style={{
-        backgroundColor: 'rgba(255,255,255,0.85)',
-        backdropFilter: 'saturate(180%) blur(20px)',
-        WebkitBackdropFilter: 'saturate(180%) blur(20px)',
-        borderBottom: '0.5px solid rgba(0,0,0,0.08)',
-      }}
-    >
-      <div className="max-w-[980px] mx-auto px-6 h-[44px] flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2" onClick={() => setHovered(null)}>
-          <img src="/avatar.jpg" alt="Avatar" className="w-6 h-6 rounded-full object-cover" />
-          <span className="text-[14px] font-medium text-[#1d1d1f]">{lang === 'cn' ? '黄一健' : 'Yijian'}</span>
+    <nav style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      background: bg,
+      backdropFilter: scrolled ? 'saturate(180%) blur(20px)' : 'none',
+      WebkitBackdropFilter: scrolled ? 'saturate(180%) blur(20px)' : 'none',
+      borderBottom: `0.5px solid ${border}`,
+      transition: 'background 0.3s, border-color 0.3s',
+    }}>
+      <div style={{ maxWidth: 980, margin: '0 auto', padding: '0 24px', height: 44, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+          <img src="/avatar.jpg" style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover' }} alt="" />
+          <span style={{ fontSize: 14, fontWeight: 600, color: textColor, letterSpacing: '-0.01em' }}>
+            {lang === 'cn' ? '黄一健' : 'Yijian'}
+          </span>
         </Link>
 
-        {/* Center Nav */}
-        <div className="flex items-center">
-          {navItems.map((item) => (
-            <div
-              key={item.key}
-              className="relative"
-              onMouseEnter={() => setHovered(item.key)}
-              onMouseLeave={() => setHovered(null)}
-            >
-              <Link
-                href={item.href}
-                className="block px-4 text-[12px] font-medium transition-colors duration-150"
-                style={{ color: currentPage === item.key ? '#1d1d1f' : '#6e6e73', lineHeight: '44px' }}
-              >
-                {t[item.key as keyof typeof t]}
+        <div style={{ display: 'flex' }}>
+          {navItems.map(key => (
+            <div key={key} style={{ position: 'relative' }}
+              onMouseEnter={() => setHovered(key)} onMouseLeave={() => setHovered(null)}>
+              <Link href={`/${key}`} style={{
+                display: 'block', padding: '0 12px', fontSize: 12, fontWeight: 500,
+                color: currentPage === key ? textColor : mutedColor,
+                textDecoration: 'none', lineHeight: '44px',
+                transition: 'color 0.15s',
+              }}>
+                {t[key]}
               </Link>
-
               <AnimatePresence>
-                {hovered === item.key && items[item.key as keyof typeof items]?.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
-                    transition={{ duration: 0.18 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-48"
-                  >
-                    <div
-                      className="rounded-[14px] overflow-hidden"
-                      style={{
-                        backgroundColor: 'rgba(255,255,255,0.95)',
-                        backdropFilter: 'blur(20px)',
-                        border: '0.5px solid rgba(0,0,0,0.1)',
-                        boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-                      }}
-                    >
-                      {items[item.key as keyof typeof items]?.map((sub, idx) => (
-                        <Link
-                          key={idx}
-                          href={sub.href}
-                          className="block px-4 py-2.5 text-[13px] text-[#1d1d1f] text-center transition-colors duration-100"
-                          style={{ borderBottom: idx < items[item.key as keyof typeof items].length - 1 ? '0.5px solid rgba(0,0,0,0.06)' : 'none' }}
-                          onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.04)')}
-                          onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
-                          onClick={() => setHovered(null)}
-                        >
-                          {sub.title}
+                {hovered === key && (
+                  <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.15 }}
+                    style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', paddingTop: 8, minWidth: 160, zIndex: 200 }}>
+                    <div style={{ background: dropBg, border: `0.5px solid ${dropBorder}`, borderRadius: 14, overflow: 'hidden', backdropFilter: 'blur(20px)', boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}>
+                      {d[key].map((item, i) => (
+                        <Link key={i} href={item.h} style={{
+                          display: 'block', padding: '10px 16px', fontSize: 13, color: dropText,
+                          textAlign: 'center', textDecoration: 'none',
+                          borderBottom: i < d[key].length - 1 ? `0.5px solid ${dropDivider}` : 'none',
+                          transition: 'background 0.1s',
+                        }}
+                          onMouseEnter={e => (e.currentTarget.style.background = dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)')}
+                          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                          onClick={() => setHovered(null)}>
+                          {item.t}
                         </Link>
                       ))}
                     </div>
@@ -120,14 +117,13 @@ export default function Navbar({ lang, setLang, currentPage }: { lang: Language;
           ))}
         </div>
 
-        {/* Lang Toggle */}
-        <button
-          onClick={() => setLang(lang === 'en' ? 'cn' : 'en')}
-          className="text-[12px] font-medium text-[#6e6e73] hover:text-[#1d1d1f] transition-colors"
-        >
+        <button onClick={() => setLang(lang === 'en' ? 'cn' : 'en')}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 500, color: mutedColor, transition: 'color 0.15s' }}
+          onMouseEnter={e => (e.currentTarget.style.color = textColor)}
+          onMouseLeave={e => (e.currentTarget.style.color = mutedColor)}>
           {lang === 'en' ? '中文' : 'EN'}
         </button>
       </div>
-    </motion.nav>
+    </nav>
   );
 }

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from "../components/Navbar";
+import { LanguageProvider } from "../components/LanguageContext";
 
 export const metadata: Metadata = {
-  title: "Yijian Huang | 黄一健 - Economics & Policy Research",
-  description: "Personal portfolio of Yijian Huang - Economics student at CUHK-Shenzhen, with experience in policy research, international organizations, and data-driven analysis.",
+  title: "Yijian Huang | 黄一健",
+  description: "Personal portfolio",
 };
 
 export default function RootLayout({
@@ -13,7 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased bg-black">
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
+      </body>
     </html>
   );
 }

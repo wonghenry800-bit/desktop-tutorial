@@ -1,104 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLanguage } from '../../components/LanguageContext';
 import Navbar from '../../components/Navbar';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface Education {
-  school: string;
-  program: string;
-  period: string;
-  description: string;
-  detail: string;
-  image: string;
-}
-
-const educationData: { en: Education[]; cn: Education[] } = {
+const aboutData = {
   en: [
-    {
-      school: 'ESCP Europe Business School',
-      program: 'Master in Global Management',
-      period: '2027 - 2029',
-      description: 'Top-ranked European business school, multidisciplinary management program',
-      detail: 'ESCP Business School was founded in 1819 and is the world\'s oldest business school. The Master in Global Management is a prestigious program that prepares students for leadership roles in international organizations. The curriculum covers finance, marketing, operations, and strategic management across multiple European campuses.',
-      image: '/gallery/ESCP.jpg',
-    },
-    {
-      school: 'The Chinese University of Hong Kong, Shenzhen',
-      program: 'BSc in Economics (Applied Economics)',
-      period: '2022 - 2026',
-      description: 'One of the top universities in the GBA, economics with data analysis focus',
-      detail: 'CUHK-Shenzhen combines the liberal arts tradition of CUHK with the innovative spirit of Shenzhen. The Economics program emphasizes quantitative methods, data analysis, and policy evaluation. Students gain strong foundations in microeconomics, macroeconomics, econometrics, and their applications in real-world policy and business scenarios.',
-      image: '/gallery/香港中文大学（深圳）.jpg',
-    },
-    {
-      school: 'The University of Hong Kong',
-      program: 'CCGL9042 - Human Political and Economic Development',
-      period: 'Summer 2023',
-      description: 'Exchange program exploring world history from political economy perspective',
-      detail: 'HKU\'s CCGL9042 course, taught by Dr. Larry Baum, explores world history through the lens of political economy. The course covers the evolution of civilizations, global trade systems, and development patterns. Students analyze case studies including the Democratic Republic of Congo\'s sustainable development challenges.',
-      image: '/gallery/University of Hong Kong.png',
-    },
-    {
-      school: 'University of Chicago - Harris School of Public Policy',
-      program: 'Data and Policy Summer Scholar Program',
-      period: 'Summer 2024',
-      description: 'Elite summer program focusing on data-driven policy analysis',
-      detail: 'The Data and Policy Summer Scholar Program at UChicago Harris is a highly competitive program for undergraduate students. Students learn advanced econometric methods, R programming for data analysis, and policy evaluation techniques. The capstone project, supervised by Dr. Austin Wright, investigated socioeconomic factors affecting voting behavior in US elections.',
-      image: '/gallery/Chicago.png',
-    },
-  ],
-  cn: [
-    {
-      school: 'ESCP欧洲高等商学院',
-      program: '全球管理硕士 Master in Global Management',
-      period: '2027 - 2029',
-      description: '欧洲顶尖商学院，多学科管理课程',
-      detail: 'ESCP商学院创立于1819年，是世界上最古老的商学院。全球管理硕士项目是备受认可的项目，培养学生在国际组织中担任领导角色。课程涵盖财务、市场、运营和跨多个欧洲校区的战略管理。',
-      image: '/gallery/ESCP.jpg',
-    },
-    {
-      school: '香港中文大学（深圳）',
-      program: '经济学学士（应用经济学）',
-      period: '2022 - 2026',
-      description: '粤港澳大湾区顶尖高校，经济学与数据分析',
-      detail: '港中深融合了港中大的博雅教育传统与深圳的创新精神。经济学项目强调定量方法、数据分析和政策评估。学生将在微观经济学、宏观经济学、计量经济学及其在实际政策和企业场景中的应用方面获得坚实基础。',
-      image: '/gallery/香港中文大学（深圳）.jpg',
-    },
-    {
-      school: '香港大学',
-      program: 'CCGL9042 政治经济学视角下的人类发展',
-      period: '2023年暑期',
-      description: '交换生项目，从政治经济学角度探索世界历史',
-      detail: '港大CCGL9042课程由Larry Baum教授讲授，从政治经济学视角探索世界历史。课程涵盖文明演变、全球贸易体系和发展模式。学生分析刚果民主共和国可持续发展等案例研究。',
-      image: '/gallery/University of Hong Kong.png',
-    },
-    {
-      school: '芝加哥大学哈里斯公共政策学院',
-      program: '数据与政策学者暑期项目',
-      period: '2024年暑期',
-      description: '精英暑期项目，专注数据驱动政策分析',
-      detail: '芝加哥大学哈里斯学院的数据与政策学者暑期项目是一个竞争激烈的本科项目。学生学习高级计量经济学方法、R数据分析和政策评估技术。在Austin Wright教授指导下研究的 capstone 项目调查了影响美国选举的社会经济因素。',
-      image: '/gallery/Chicago.png',
-    },
-  ],
-};
-
-interface Section {
-  emoji: string;
-  title: string;
-  content: string;
-}
-
-const aboutData: { en: Section[]; cn: Section[] } = {
-  en: [
-    { emoji: '🎯', title: "Hi, I'm Yijian Huang", content: 'You can also call me Henry. An explorer freely navigating between Economics, Philosophy, AI, and Policy.' },
-    { emoji: '📖', title: 'My life is a book with several chapters open', content: 'Policy research, business analysis, entrepreneurship, AI practice — I\'m reading all simultaneously.' },
-    { emoji: '🏛️', title: 'Policy is about understanding how rules shape outcomes', content: 'At the State Council DRC, HK-Macao-Taiwan Association, and UNDP, I\'ve researched how policies cross boundaries to affect real industries and lives.' },
-    { emoji: '💼', title: 'Business is about validating ideas in the real world', content: 'At NetEase and Rongtai VC, I learned to analyze markets and evaluate companies. Now building Tevo Group in intelligent retail.' },
-    { emoji: '🤖', title: 'AI is my tool for thinking and building', content: 'I use AI to assist research and enjoy building with Cursor and ChatGPT. AI is essential for understanding this era.' },
-    { emoji: '☕', title: "Let's connect", content: 'If any of my journey resonates with you, I\'m ready for a coffee chat. Thanks for visiting!' },
+    { emoji: '🎯', title: "Hi, I'm Yijian Huang", content: "You can also call me Henry. An explorer freely navigating between Economics, Philosophy, AI, and Policy." },
+    { emoji: '📖', title: 'My life is a book with several chapters open', content: "Policy research, business analysis, entrepreneurship, AI practice — I'm reading all simultaneously." },
+    { emoji: '🏛️', title: 'Policy is about understanding how rules shape outcomes', content: "At the State Council DRC, HK-Macao-Taiwan Association, and UNDP, I've researched how policies cross boundaries to affect real industries and lives." },
+    { emoji: '💼', title: 'Business is about validating ideas in the real world', content: "At NetEase and Rongtai VC, I learned to analyze markets and evaluate companies. Now building Tevo Group in intelligent retail." },
+    { emoji: '🤖', title: 'AI is my tool for thinking and building', content: "I use AI to assist research and enjoy building with Cursor and ChatGPT. AI is essential for understanding this era." },
+    { emoji: '☕', title: "Let's connect", content: "If any of my journey resonates with you, I'm ready for a coffee chat. Thanks for visiting!" },
   ],
   cn: [
     { emoji: '🎯', title: '你好，我是黄一健', content: '也可以叫我 Henry。一个在经济学、哲学、AI与政策之间自由穿梭的探索者。' },
@@ -110,167 +24,134 @@ const aboutData: { en: Section[]; cn: Section[] } = {
   ],
 };
 
+const educationData = {
+  en: [
+    { school: 'ESCP Europe Business School', program: 'Master in Global Management', period: '2027 – 2029', description: "Top-ranked European business school, multidisciplinary management program", detail: "ESCP Business School was founded in 1819 and is the world's oldest business school. The Master in Global Management prepares students for leadership roles in international organizations across multiple European campuses.", image: '/gallery/ESCP.jpg' },
+    { school: 'CUHK, Shenzhen', program: 'BSc in Economics (Applied Economics)', period: '2022 – 2026', description: 'One of the top universities in the GBA, economics with data analysis focus', detail: "CUHK-Shenzhen combines the liberal arts tradition of CUHK with the innovative spirit of Shenzhen. The Economics program emphasizes quantitative methods, data analysis, and policy evaluation.", image: '/gallery/香港中文大学（深圳）.jpg' },
+    { school: 'The University of Hong Kong', program: 'CCGL9042 – Human Political & Economic Development', period: 'Summer 2023', description: 'Exchange program exploring world history from political economy perspective', detail: "HKU's CCGL9042 course explores world history through the lens of political economy, covering the evolution of civilizations, global trade systems, and development patterns.", image: '/gallery/University of Hong Kong.png' },
+    { school: 'UChicago Harris School of Public Policy', program: 'Data and Policy Summer Scholar Program', period: 'Summer 2024', description: 'Elite summer program focusing on data-driven policy analysis', detail: "A highly competitive program for undergraduates. Students learn advanced econometric methods, R programming, and policy evaluation techniques. Capstone project supervised by Dr. Austin Wright.", image: '/gallery/Chicago.png' },
+  ],
+  cn: [
+    { school: 'ESCP欧洲高等商学院', program: '全球管理硕士', period: '2027 – 2029', description: '欧洲顶尖商学院，多学科管理课程', detail: 'ESCP商学院创立于1819年，是世界上最古老的商学院。全球管理硕士项目培养学生在国际组织中担任领导角色。', image: '/gallery/ESCP.jpg' },
+    { school: '香港中文大学（深圳）', program: '经济学学士（应用经济学）', period: '2022 – 2026', description: '粤港澳大湾区顶尖高校，经济学与数据分析', detail: '港中深融合了港中大的博雅教育传统与深圳的创新精神。经济学项目强调定量方法、数据分析和政策评估。', image: '/gallery/香港中文大学（深圳）.jpg' },
+    { school: '香港大学', program: 'CCGL9042 政治经济学视角下的人类发展', period: '2023年暑期', description: '交换生项目，从政治经济学角度探索世界历史', detail: '港大CCGL9042课程从政治经济学视角探索世界历史，涵盖文明演变、全球贸易体系和发展模式。', image: '/gallery/University of Hong Kong.png' },
+    { school: '芝加哥大学哈里斯公共政策学院', program: '数据与政策学者暑期项目', period: '2024年暑期', description: '精英暑期项目，专注数据驱动政策分析', detail: '竞争激烈的本科项目，学习高级计量经济学方法、R数据分析和政策评估技术。在Austin Wright教授指导下完成capstone项目。', image: '/gallery/Chicago.png' },
+  ],
+};
+
 export default function About() {
   const { lang, setLang } = useLanguage();
-  const [showEducation, setShowEducation] = useState(false);
   const [selectedEdu, setSelectedEdu] = useState<number | null>(null);
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const eduIndex = params.get('edu');
-    if (eduIndex !== null) {
-      setSelectedEdu(parseInt(eduIndex));
-      setShowEducation(true);
-    }
-  }, []);
-
   const data = aboutData[lang];
   const eduData = educationData[lang];
-  const title = lang === 'en' ? 'About Me' : '关于我';
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-white">
       <Navbar lang={lang} setLang={setLang} currentPage="about" />
-      
-      <main className="pt-20 pb-16 px-6">
-        <div className="max-w-5xl mx-auto">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-5xl font-semibold text-white text-center mb-4"
-          >
-            {title}
-          </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="w-20 h-1 bg-white/20 rounded-full mx-auto mb-12"
-          />
+      <main className="pt-32 pb-24 px-6">
+        <div className="max-w-[740px] mx-auto">
 
-          {/* Brief Intro Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
-            {data.map((item, index) => (
+          {/* Hero */}
+          <div className="text-center mb-16">
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#2997ff] mb-4">Profile</motion.p>
+            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="text-[48px] font-semibold text-[#1d1d1f] mb-4" style={{ letterSpacing: '-0.025em', lineHeight: 1.07 }}>
+              {lang === 'en' ? 'About Me' : '关于我'}
+            </motion.h1>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }} className="text-[19px] font-light text-[#6e6e73]">
+              {lang === 'en' ? 'Explorer. Researcher. Builder.' : '探索者 · 研究者 · 创造者'}
+            </motion.p>
+          </div>
+
+          {/* About cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-20">
+            {data.map((item, i) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * index + 0.3 }}
-                className="bg-[#111] rounded-2xl p-6 hover:bg-[#1a1a1a] transition-colors"
+                transition={{ delay: i * 0.06 + 0.1 }}
+                className="rounded-[18px] p-6 transition-colors duration-200"
+                style={{ backgroundColor: '#f5f5f7', border: '0.5px solid rgba(0,0,0,0.06)' }}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#ebebf0')}
+                onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#f5f5f7')}
               >
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl">{item.emoji}</span>
-                  <div>
-                    <h2 className="text-[16px] font-semibold text-white">{item.title}</h2>
-                    <p className="text-[14px] text-white/60 mt-2 leading-relaxed">{item.content}</p>
-                  </div>
-                </div>
+                <span className="text-[24px] mb-3 block">{item.emoji}</span>
+                <h3 className="text-[15px] font-semibold text-[#1d1d1f] mb-2" style={{ letterSpacing: '-0.01em' }}>{item.title}</h3>
+                <p className="text-[13px] text-[#6e6e73] leading-relaxed">{item.content}</p>
               </motion.div>
             ))}
           </div>
 
-          {/* Education Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1 }}
-          >
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-semibold text-white">
-                {lang === 'en' ? 'Education' : '教育背景'}
-              </h2>
-              <button
-                onClick={() => setShowEducation(!showEducation)}
-                className="px-5 py-2 bg-[#007AFF] text-white text-[13px] font-medium rounded-full hover:bg-[#0056CC] transition-colors"
-              >
-                {showEducation ? (lang === 'en' ? 'Show Less' : '收起') : (lang === 'en' ? 'View All' : '查看全部')}
-              </button>
-            </div>
-
-            {/* Education Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {/* Education */}
+          <div>
+            <p className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#86868b] mb-5 pb-3" style={{ borderBottom: '0.5px solid rgba(0,0,0,0.08)' }}>
+              {lang === 'en' ? 'Education' : '教育背景'}
+            </p>
+            <div
+              className="rounded-[18px] overflow-hidden"
+              style={{ border: '0.5px solid rgba(0,0,0,0.08)' }}
+            >
               {eduData.map((edu, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * i + 0.5 }}
-                  className="bg-[#111] rounded-2xl overflow-hidden hover:bg-[#1a1a1a] transition-colors cursor-pointer"
+                  transition={{ delay: i * 0.06 + 0.3 }}
+                  className="flex items-center gap-4 px-6 py-5 cursor-pointer transition-colors duration-150"
+                  style={{
+                    borderBottom: i < eduData.length - 1 ? '0.5px solid rgba(0,0,0,0.06)' : 'none',
+                    backgroundColor: 'rgba(0,0,0,0.01)',
+                  }}
                   onClick={() => setSelectedEdu(i)}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f5f5f7')}
+                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.01)')}
                 >
-                  <div className="aspect-video overflow-hidden">
-                    <img 
-                      src={edu.image} 
-                      alt={edu.school}
-                      className="w-full h-full object-cover opacity-90"
-                    />
+                  <div className="flex-shrink-0 w-12 h-12 rounded-[12px] overflow-hidden bg-[#f5f5f7]" style={{ border: '0.5px solid rgba(0,0,0,0.08)' }}>
+                    <img src={edu.image} alt={edu.school} className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
                   </div>
-                  <div className="p-5">
-                    <h3 className="text-[15px] font-semibold text-white truncate">{edu.school}</h3>
-                    <p className="text-[13px] text-blue-400 mt-1 truncate">{edu.program}</p>
-                    <p className="text-[12px] text-white/40 mt-1">{edu.period}</p>
-                    <p className="text-[12px] text-white/50 mt-3 line-clamp-2">{edu.description}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[15px] font-medium text-[#1d1d1f] truncate" style={{ letterSpacing: '-0.01em' }}>{edu.school}</p>
+                    <p className="text-[13px] text-[#2997ff] mt-0.5 truncate">{edu.program}</p>
                   </div>
+                  <p className="text-[12px] text-[#86868b] whitespace-nowrap hidden sm:block">{edu.period}</p>
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Signature */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-            className="text-center mt-16"
-          >
-            <p className="text-[15px] text-white/50">{lang === 'cn' ? '黄一健' : '— Yijian Huang'}</p>
-            <p className="text-[13px] text-white/30 mt-1">{lang === 'cn' ? '于深圳，2026年春' : 'Shenzhen, Spring 2026'}</p>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="text-center mt-16">
+            <p className="text-[14px] text-[#86868b]">{lang === 'cn' ? '黄一健' : '— Yijian Huang'}</p>
+            <p className="text-[12px] text-[#b0b0b5] mt-1">{lang === 'cn' ? '于深圳，2026年春' : 'Shenzhen, Spring 2026'}</p>
           </motion.div>
         </div>
       </main>
 
-      {/* Education Detail Modal */}
+      {/* Education Modal */}
       <AnimatePresence>
         {selectedEdu !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedEdu(null)}
-            className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 overflow-y-auto"
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-[#111] rounded-2xl max-w-xl w-full my-8 overflow-hidden"
-            >
-              <div className="aspect-video overflow-hidden">
-                <img 
-                  src={eduData[selectedEdu].image}
-                  alt={eduData[selectedEdu].school}
-                  className="w-full h-full object-cover"
-                />
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedEdu(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-6"
+            style={{ backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
+            <motion.div initial={{ scale: 0.96, opacity: 0, y: 16 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.96, opacity: 0 }}
+              transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+              onClick={e => e.stopPropagation()}
+              className="w-full max-w-lg rounded-[22px] overflow-hidden bg-white"
+              style={{ border: '0.5px solid rgba(0,0,0,0.1)', boxShadow: '0 24px 64px rgba(0,0,0,0.2)' }}>
+              <div className="aspect-video overflow-hidden bg-[#f5f5f7]">
+                <img src={eduData[selectedEdu].image} alt={eduData[selectedEdu].school} className="w-full h-full object-cover" />
               </div>
-              
-              <div className="p-6">
-                <h2 className="text-[20px] font-semibold text-white">{eduData[selectedEdu].school}</h2>
-                <p className="text-[14px] text-blue-400 mt-1">{eduData[selectedEdu].program}</p>
-                <p className="text-[12px] text-white/40 mt-1">{eduData[selectedEdu].period}</p>
-                
-                <div className="mt-5">
-                  <p className="text-[14px] text-white/70 leading-relaxed">
-                    {eduData[selectedEdu].detail}
-                  </p>
-                </div>
-                
-                <button
-                  onClick={() => setSelectedEdu(null)}
-                  className="mt-6 w-full py-2.5 bg-[#007AFF] text-white text-[13px] font-medium rounded-full hover:bg-[#0056CC] transition-colors"
-                >
+              <div className="p-7">
+                <h2 className="text-[20px] font-semibold text-[#1d1d1f]" style={{ letterSpacing: '-0.02em' }}>{eduData[selectedEdu].school}</h2>
+                <p className="text-[14px] text-[#2997ff] mt-1">{eduData[selectedEdu].program}</p>
+                <p className="text-[12px] text-[#86868b] mt-1">{eduData[selectedEdu].period}</p>
+                <p className="text-[14px] text-[#6e6e73] mt-5" style={{ lineHeight: '1.8' }}>{eduData[selectedEdu].detail}</p>
+                <button onClick={() => setSelectedEdu(null)}
+                  className="mt-7 w-full py-3 rounded-full text-[13px] font-medium text-white"
+                  style={{ backgroundColor: '#1d1d1f' }}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#3a3a3c')}
+                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1d1d1f')}>
                   {lang === 'en' ? 'Close' : '关闭'}
                 </button>
               </div>

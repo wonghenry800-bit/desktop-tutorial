@@ -10,7 +10,7 @@ const eduData = {
     {
       abbr: 'CE', school: 'China Europe International Business School (CEIBS)', prog: 'Global MBA (Full-Time)', period: '2026–2027', loc: 'Shanghai, China',
       url: 'https://www.ceibs.edu',
-      imgs: ['/gallery/中欧国际工商学院.jpg'],
+      imgs: ['/gallery/ceibs.jpg'],
       detail: `Founded in 1994 through a partnership between the Chinese government and the European Commission, CEIBS (中欧国际工商学院) is Asia's #1 business school — ranked #1 in Asia and #8 globally by the Financial Times MBA Rankings 2026. Headquartered in Shanghai's Pudong district with campuses in Beijing, Shenzhen, Zurich, and Accra, CEIBS is the only business school in mainland China accredited by both EQUIS and AACSB.\n\nThe CEIBS Full-Time MBA is a 16-month intensive program built around the philosophy of "China Depth, Global Breadth." The curriculum includes 16 core courses and 40+ electives spanning finance, strategy, operations, and entrepreneurship, supplemented by an Integration Consulting Project and international exchange modules at 40+ elite partner schools worldwide. With a community of 30,000+ alumni across 90+ countries, the program develops leaders who can navigate the intersection of China's economy and global business.`
     },
     {
@@ -42,7 +42,7 @@ const eduData = {
     {
       abbr: 'CE', school: '中欧国际工商学院（CEIBS）', prog: '全球工商管理硕士（MBA）', period: '2026–2027', loc: '上海',
       url: 'https://www.ceibs.edu',
-      imgs: ['/gallery/中欧国际工商学院.jpg'],
+      imgs: ['/gallery/ceibs.jpg'],
       detail: `中欧国际工商学院（CEIBS）创立于1994年，由中国政府与欧盟共同发起，是亚洲排名第一的商学院——2026年《金融时报》全球MBA排名中位居亚洲第一、全球第八。总部位于上海浦东，另设北京、深圳、苏黎世和加纳阿克拉校区，是中国大陆唯一同时获得EQUIS和AACSB双重认证的商学院。\n\n中欧全日制MBA为16个月密集项目，以"中国深度、全球广度"为核心理念。课程体系涵盖16门核心课和40余门选修课，横跨金融、战略、运营与创业，并配备整合咨询项目和全球40余所合作院校的交流模块。30,000+名校友遍布90+个国家，项目致力于培养站在中国经济与全球商业交汇点的领袖人才。`
     },
     {
